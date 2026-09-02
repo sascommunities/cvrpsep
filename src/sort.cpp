@@ -7,8 +7,20 @@
 #include <stdio.h>
 #include "memmod.h"
 
-int *StackLeft, *StackRight;
-char StacksAllocated = 0;
+thread_local int *StackLeft, *StackRight;
+thread_local char StacksAllocated = 0;
+
+thread_local struct SortThreadLocalCleanup
+{
+  ~SortThreadLocalCleanup()
+  {
+    MemFree(StackLeft);
+    MemFree(StackRight);
+    StackLeft = NULL;
+    StackRight = NULL;
+    StacksAllocated = 0;
+  }
+} sortThreadLocalCleanup;
 
 void SortCheckStacks()
 {

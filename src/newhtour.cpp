@@ -16,9 +16,18 @@
 #include "intap.h"
 #include "blocks.h"
 
-ReachPtr AllHTourConfigsRPtr = NULL;
-int GlobalHTours = 0;
-int MaxGlobalHTours = 100;
+thread_local ReachPtr AllHTourConfigsRPtr = NULL;
+thread_local int GlobalHTours = 0;
+thread_local int MaxGlobalHTours = 100;
+
+thread_local struct NewHTourThreadLocalCleanup
+{
+  ~NewHTourThreadLocalCleanup()
+  {
+    ReachFreeMem(&AllHTourConfigsRPtr);
+    GlobalHTours = 0;
+  }
+} newHTourThreadLocalCleanup;
 
 void NEWHTOUR_CheckIfHandleExists(ReachPtr RPtr,
                                   int RPtrSize, /* #lists in RPtr */

@@ -9,12 +9,12 @@
 #include "basegrph.h"
 #include "blocks.h"
 
-int BLStackSize, BLNodeListSize;
-int BLComponentNr, BLCounter;
-int u1,u2;
-char *BLNodeInComponent;
-int *BLNUMBER, *BLLOWPT, *BLStackLeft, *BLStackRight, *BLNodeList;
-ReachPtr BLAdjPtr, BLResCompPtr;
+thread_local int BLStackSize, BLNodeListSize;
+thread_local int BLComponentNr, BLCounter;
+thread_local int u1,u2;
+thread_local char *BLNodeInComponent;
+thread_local int *BLNUMBER, *BLLOWPT, *BLStackLeft, *BLStackRight, *BLNodeList;
+thread_local ReachPtr BLAdjPtr, BLResCompPtr;
 
 void BiConnect(int v, int u)
 {
