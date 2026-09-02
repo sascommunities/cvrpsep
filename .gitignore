@@ -1,0 +1,12 @@
+# Build artifacts
+obj/
+dep/
+
+# Generated dependency scratch files
+*.d
+*.dd
+
+# Compiled objects, libraries, executables
+*.o
+*.a
+*.so
