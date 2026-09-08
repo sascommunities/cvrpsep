@@ -22,21 +22,23 @@ UNAME = $(shell uname)
 OS = $(shell uname -s)
 OPTFLAG = -O3
 #OPTFLAG = -g
+COM_SRCDIR = src
+COM_INCDIR = h
 COM_TARGETDIR = obj
 COM_DEPDIR = dep
-COM_LIBSRC = $(filter-out %unitTest.cpp, $(shell /bin/ls *.cpp))
+COM_LIBSRC = $(filter-out %unitTest.cpp, $(notdir $(shell /bin/ls $(COM_SRCDIR)/*.cpp)))
 COM_LIBOBJ = $(addprefix $(COM_TARGETDIR)/, $(COM_LIBSRC:.cpp=.o))
 COM_LIBDEP = $(addprefix $(COM_DEPDIR)/, $(COM_LIBSRC:.cpp=.d))
 TARGET_LIB = libcvrpsep
 CXXFLAGS = $(OPTFLAG)
-DEPFLAGS += -I. -D$(OS)
+DEPFLAGS += -I$(COM_INCDIR) -D$(OS)
 
 LinuxCXX=g++
 CXX=$($(OS)CXX)
 
 ###############################################################################
 # Create the dependency information
-$(COM_TARGETDIR)/%.o : %.cpp ${COM_DEPDIR}/%.d Makefile
+$(COM_TARGETDIR)/%.o : $(COM_SRCDIR)/%.cpp ${COM_DEPDIR}/%.d Makefile
 	@echo ""
 	@if test ! -e ${COM_DEPDIR}/$*.d ; then \
 	    echo ; \
@@ -49,7 +51,7 @@ $(COM_TARGETDIR)/%.o : %.cpp ${COM_DEPDIR}/%.d Makefile
 	@mkdir -p $(COM_TARGETDIR)
 	$(CXX) $(DEPFLAGS) $(CXXFLAGS) -c $< -o $@
 
-${COM_DEPDIR}/%.d : %.cpp
+${COM_DEPDIR}/%.d : $(COM_SRCDIR)/%.cpp
 	@echo Creating dependency $*.d
 	@mkdir -p ${COM_DEPDIR}
 	@rm -f $*.d $*.dd

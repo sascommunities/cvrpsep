@@ -8,12 +8,12 @@
 #include "basegrph.h"
 #include "strngcmp.h"
 
-int ConnectCallNr;
-int StackSize, ComponentSize;
-int ComponentNr;
-char *OnStack;
-int *NUMBER, *LOWLINK, *Stack, *Component;
-ReachPtr AdjPtr, ResCompPtr;
+thread_local int ConnectCallNr;
+thread_local int StackSize, ComponentSize;
+thread_local int ComponentNr;
+thread_local char *OnStack;
+thread_local int *NUMBER, *LOWLINK, *Stack, *Component;
+thread_local ReachPtr AdjPtr, ResCompPtr;
 
 void StrongConnect(int v)
 {
